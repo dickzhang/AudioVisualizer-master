@@ -72,20 +72,21 @@ std::vector<glm::vec3> AudioRect::GetVetexData(const std::vector<float>& heigthl
 	if (heigthlist.empty())return vertexdata;
 	float lenght = 10.0;
 	float Hfactor = 5.0;
+	float dtx = 0.01;
 
 	float segment = lenght / heigthlist.size();
 	for (int i = 0; i < heigthlist.size(); i++)
 	{
-		glm::vec3 p0 = { i * segment,0,0 };
+		glm::vec3 p0 = { i * segment+ i*dtx,0,0 };
 		glm::vec3 color0 = { 0,0,1.0};
 
-		glm::vec3 p1 = { (i + 1) * segment,0,0 };
+		glm::vec3 p1 = { (i + 1) * segment + i * dtx,0,0 };
 		glm::vec3 color1 = { 0,0,1.0 };
 
-		glm::vec3 p2 = { (i + 1) * segment,heigthlist[i] * Hfactor,0 };
+		glm::vec3 p2 = { (i + 1) * segment + i * dtx,heigthlist[i] * Hfactor,0 };
 		glm::vec3 color2 = { 1.0,0,0 };
 
-		glm::vec3 p3 = { i * segment,heigthlist[i] * Hfactor,0 };
+		glm::vec3 p3 = { i * segment + i * dtx,heigthlist[i] * Hfactor,0 };
 		glm::vec3 color3 = { 1.0,0,0 };
 
 		vertexdata.push_back(p0);
