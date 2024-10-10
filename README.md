@@ -6,13 +6,13 @@
 震动矩形显示效果如下:
 
 <p align="center">
-  <img width="400" height="250" src="https://i.gyazo.com/6ddf6cf03bc4b7c850b2400d75759f9d.gif">
+  <img width="400" height="250" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/image.png">
 </p>
 
 动感模型显示示例效果:
 
 <p align="center">
-  <img width="500" height="350" src="https://i.gyazo.com/9b3d8bbc1dea8684f7528eedeab57db0.gif">
+  <img width="500" height="350" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/model.png">
 </p>
 
 
