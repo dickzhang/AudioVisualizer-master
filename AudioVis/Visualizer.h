@@ -24,7 +24,7 @@ class AudioObject;
 //0 是动感模型示例
 //1 是震动的矩形波浪示例
 //2 是圆形波浪示例
-#define DEMOTYPE 0
+#define DEMOTYPE 1
 
 class Visualizer
 {
