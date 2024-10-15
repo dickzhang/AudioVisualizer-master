@@ -15,4 +15,8 @@
   <img width="500" height="350" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/model.png">
 </p>
 
+圆形音波效果示例:
 
+<p align="center">
+  <img width="600" height="350" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/Circle.png">
+</p>
