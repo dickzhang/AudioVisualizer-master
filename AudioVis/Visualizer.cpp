@@ -44,6 +44,13 @@ bool Visualizer::Init()
 			return false;
 		}
 	}
+	else if (DEMOTYPE == 2)
+	{
+		if (!m_AudioCircle.Init())
+		{
+			return false;
+		}
+	}
 	
 	return true;
 }
@@ -93,8 +100,8 @@ bool Visualizer::InitWindow()
 	glDepthFunc(GL_LESS);
 
 	// Cull triangles which normal is not towards the camera
-	glEnable(GL_CULL_FACE);
-	glCullFace(GL_BACK);
+	//glEnable(GL_CULL_FACE);
+	//glCullFace(GL_BACK);
 
 	//// Enable blending
 	//glEnable(GL_BLEND);
@@ -128,6 +135,10 @@ void Visualizer::Update(const AudioObject& audioObject)
 	else if (DEMOTYPE == 1)
 	{
 		m_AudioRect.Draw(audioObject, *this);
+	}
+	else if (DEMOTYPE == 2)
+	{
+		m_AudioCircle.Draw(audioObject, *this);
 	}
 	// Swap buffers
 	glfwSwapBuffers(window);

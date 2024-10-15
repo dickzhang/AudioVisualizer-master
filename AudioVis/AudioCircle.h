@@ -28,9 +28,11 @@ public:
 	void Draw(const AudioObject& audioObject, const Visualizer& visualizer);
 private:
 	unsigned int GenVAO(const std::vector<float>& heigthlist);
-	std::vector<glm::vec3> GetVetexData(const std::vector<float>& heigthlist);
+	void GetVetexData(const std::vector<float>& heigthlist);
 private:
 	GLuint shader;
 	GLuint MVPID;
+	std::vector<glm::vec3> m_Vertexdata;
+	std::vector <int> m_Indices;
 };
 

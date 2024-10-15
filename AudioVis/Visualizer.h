@@ -9,6 +9,7 @@
 #include "AudioVis.h"
 #include "Object3D.h"
 #include "AudioRect.h"
+#include "AudioCircle.h"
 #include <stdio.h>
 #include <chrono>	
 #include "GL/glew.h"
@@ -24,7 +25,7 @@ class AudioObject;
 //0 是动感模型示例
 //1 是震动的矩形波浪示例
 //2 是圆形波浪示例
-#define DEMOTYPE 1
+#define DEMOTYPE 2
 
 class Visualizer
 {
@@ -50,6 +51,7 @@ private:
 	int windowHeight{ 0 };
 	Object3D object;
 	AudioRect m_AudioRect;
+	AudioCircle m_AudioCircle;
 	double						deltaTime{ 0 };
 	time_point<steady_clock>	lastTimeStamp;
 };
