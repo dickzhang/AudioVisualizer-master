@@ -1,6 +1,7 @@
 #pragma once
 
 #define _USE_MATH_DEFINES
+
 #ifndef GLFW_DLL
 #define GLFW_DLL
 #endif
@@ -16,23 +17,23 @@
 class AudioObject;
 class Visualizer;
 
-class AudioRect:public DrawBase
+class AudioRing:public DrawBase
 {
 public:
+	AudioRing();
 
-	AudioRect();
-
-	virtual~AudioRect();
+	virtual ~AudioRing();
 
 	virtual bool Init()override;
 
 	virtual void Draw(const AudioObject& audioObject, const Visualizer& visualizer)override;
-
 private:
 	unsigned int GenVAO(const std::vector<float>& heigthlist);
-	std::vector<glm::vec3> GetVetexData(const std::vector<float>& heigthlist);
+	void GetVetexData(const std::vector<float>& heigthlist);
 private:
 	GLuint shader;
 	GLuint MVPID;
+	std::vector<glm::vec3> m_Vertexdata;
+	std::vector <int> m_Indices;
 };
 

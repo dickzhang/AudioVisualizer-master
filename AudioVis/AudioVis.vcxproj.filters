@@ -38,6 +38,12 @@
     <ClInclude Include="AudioCircle.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="AudioRing.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawBase.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioVis.cpp">
@@ -62,6 +68,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AudioCircle.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="AudioRing.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DrawBase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

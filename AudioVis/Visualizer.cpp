@@ -3,11 +3,33 @@
 // TEST 
 #include "Shader.hpp"
 
-Visualizer::Visualizer(int width, int height): object("Models/suzanne.obj", "Models/suzanneuvmap.DDS")
+Visualizer::Visualizer(int width, int height): m_Object3D("Models/suzanne.obj", "Models/suzanneuvmap.DDS")
 {
 	windowWidth = width;
 	windowHeight = height;
 	lastTimeStamp = high_resolution_clock::now();
+	m_DrawBase = GetDrawObject();
+}
+
+DrawBase* Visualizer::GetDrawObject()
+{
+	if (DEMOTYPE == 0)
+	{
+		return &m_Object3D;
+	}
+	else if (DEMOTYPE == 1)
+	{
+		return &m_AudioRect;
+	}
+	else if (DEMOTYPE == 2)
+	{
+		return &m_AudioCircle;
+	}
+	else if (DEMOTYPE == 3)
+	{
+		return &m_AudioRing;
+	}
+	return nullptr;
 }
 
 Visualizer::~Visualizer()
@@ -29,29 +51,10 @@ bool Visualizer::Init()
 		return false;
 	}
 	InitVAO();
-	if (DEMOTYPE == 0)
+	if (!m_DrawBase||!m_DrawBase->Init())
 	{
-		if (!object.Init())
-		{
-			cout << "Object initialization failed" << endl;
-			return false;
-		}
+		return false;
 	}
-	else if (DEMOTYPE == 1)
-	{
-		if (!m_AudioRect.Init())
-		{
-			return false;
-		}
-	}
-	else if (DEMOTYPE == 2)
-	{
-		if (!m_AudioCircle.Init())
-		{
-			return false;
-		}
-	}
-	
 	return true;
 }
 
@@ -128,17 +131,9 @@ void Visualizer::Update(const AudioObject& audioObject)
 {
 	// Clear the screen
 	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (DEMOTYPE == 0)
+	if (m_DrawBase)
 	{
-		object.Draw(audioObject, *this);
-	}
-	else if (DEMOTYPE == 1)
-	{
-		m_AudioRect.Draw(audioObject, *this);
-	}
-	else if (DEMOTYPE == 2)
-	{
-		m_AudioCircle.Draw(audioObject, *this);
+		m_DrawBase->Draw(audioObject, *this);
 	}
 	// Swap buffers
 	glfwSwapBuffers(window);

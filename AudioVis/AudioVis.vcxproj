@@ -165,7 +165,9 @@
   <ItemGroup>
     <ClInclude Include="AudioCircle.h" />
     <ClInclude Include="AudioObject.h" />
+    <ClInclude Include="AudioRing.h" />
     <ClInclude Include="AudioVis.h" />
+    <ClInclude Include="DrawBase.h" />
     <ClInclude Include="Object3D.h" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Texture.hpp" />
@@ -175,7 +177,9 @@
   <ItemGroup>
     <ClCompile Include="AudioCircle.cpp" />
     <ClCompile Include="AudioObject.cpp" />
+    <ClCompile Include="AudioRing.cpp" />
     <ClCompile Include="AudioVis.cpp" />
+    <ClCompile Include="DrawBase.cpp" />
     <ClCompile Include="Object3D.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />

@@ -7,6 +7,7 @@
 #endif
 
 #include "AudioVis.h"
+#include "DrawBase.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -16,16 +17,16 @@
 class AudioObject;
 class Visualizer;
 
-class AudioCircle
+class AudioCircle:public DrawBase
 {
 public:
 	AudioCircle();
 
-	~AudioCircle();
+	virtual~AudioCircle();
 
-	bool Init();
+	virtual bool Init()override;
 
-	void Draw(const AudioObject& audioObject, const Visualizer& visualizer);
+	virtual void Draw(const AudioObject& audioObject, const Visualizer& visualizer)override;
 private:
 	unsigned int GenVAO(const std::vector<float>& heigthlist);
 	void GetVetexData(const std::vector<float>& heigthlist);

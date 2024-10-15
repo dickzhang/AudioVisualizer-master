@@ -7,6 +7,7 @@
 #endif
 
 #include "AudioVis.h"
+#include "DrawBase.h"
 #include "GL/glew.h"
 #include "GLFW/glfw3.h"
 #include "glm/glm.hpp"
@@ -22,7 +23,7 @@ class Visualizer;
 //==============================================================
 // A class that loads and renders a single obj object
 //==============================================================
-class Object3D
+class Object3D:public DrawBase
 {
 public:
 	//--------------------------------------------------------------
@@ -42,10 +43,9 @@ public:
 	};
 
 	Object3D(string file,string texture);
-	~Object3D();
-
-	bool Init();
-	void Draw(const AudioObject& audioObject,const Visualizer& visualizer);
+	virtual ~Object3D();
+	virtual bool Init()override;
+	virtual void Draw(const AudioObject& audioObject,const Visualizer& visualizer)override;
 
 private:
 
