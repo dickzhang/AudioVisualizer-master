@@ -34,6 +34,5 @@ private:
 	GLuint shader;
 	GLuint MVPID;
 	std::vector<glm::vec3> m_Vertexdata;
-	std::vector <int> m_Indices;
 };
 

@@ -20,3 +20,9 @@
 <p align="center">
   <img width="600" height="350" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/Circle.png">
 </p>
+
+圆环形音波效果示例:
+
+<p align="center">
+  <img width="600" height="350" src="https://github.com/dickzhang/AudioVisualizer-master/blob/main/Ring.png">
+</p>

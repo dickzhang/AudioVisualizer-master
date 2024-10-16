@@ -44,25 +44,21 @@ void AudioRing::Draw(const AudioObject& audioObject, const Visualizer& visualize
 	glUseProgram(shader);
 	glUniformMatrix4fv(MVPID, 1, GL_FALSE, &MVP[0][0]);
 	glBindVertexArray(vao);
-	glDrawElements(GL_TRIANGLES, m_Indices.size(), GL_UNSIGNED_INT, 0);
+	glDrawArrays(GL_TRIANGLES, 0, audioObject.GetHeightList().size() * 6);
 	glDeleteVertexArrays(1, &vao);
 }
 
 unsigned int AudioRing::GenVAO(const std::vector<float>& heigthlist)
 {
-	unsigned int VBO, VAO, EBO;
+	unsigned int VBO, VAO;
 	glGenVertexArrays(1, &VAO);
 	glGenBuffers(1, &VBO);
-	glGenBuffers(1, &EBO);
 	glBindVertexArray(VAO);
 
 	GetVetexData(heigthlist);
 
 	glBindBuffer(GL_ARRAY_BUFFER, VBO);
 	glBufferData(GL_ARRAY_BUFFER, sizeof(glm::vec3) * m_Vertexdata.size(), &m_Vertexdata[0], GL_STATIC_DRAW);
-
-	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, EBO);
-	glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(int) * m_Indices.size(), &m_Indices[0], GL_STATIC_DRAW);
 
 	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), (void*)0);
 	glEnableVertexAttribArray(0);
@@ -75,33 +71,48 @@ unsigned int AudioRing::GenVAO(const std::vector<float>& heigthlist)
 void AudioRing::GetVetexData(const std::vector<float>& heigthlist)
 {
 	m_Vertexdata.clear();
-	m_Indices.clear();
 
-	m_Vertexdata.push_back({ 0,0,0 });
-	m_Vertexdata.push_back({ 0.0,1.0,0.0 });
 	int pointSide = heigthlist.size() + 0.5f;
 	auto startRadian = glm::radians(0.0f);
 	auto endRadian = glm::radians(360.0f);
 	float row_delta = (startRadian - endRadian) / pointSide;
-
+	float delta = 0.015;
 	for (int i = 0; i < pointSide + 1; i++)
 	{
 		float m_fRadius = 1.0;
+		float m_fRadiusExtend = 1.0;
 		if (i < heigthlist.size())
 		{
-			m_fRadius += 2 * heigthlist[i];
+			m_fRadiusExtend += 2 * heigthlist[i];
 		}
 		auto cosV = glm::cos(startRadian + i * row_delta);
 		auto sinV = glm::sin(startRadian + i * row_delta);
-		glm::vec3 position = glm::vec3(m_fRadius * cosV, m_fRadius * sinV, 0.0f);
-		m_Vertexdata.push_back(position);
+		glm::vec3 position = glm::vec3(m_fRadiusExtend * cosV, m_fRadiusExtend * sinV, 0.0f);
+		glm::vec3 pos = glm::vec3(m_fRadius * cosV, m_fRadius * sinV, 0.0f);
+		glm::vec3 qieLine = { -pos.y,pos.x,0.0 };
+		glm::vec3 norqeiline= glm::normalize(qieLine);
+		glm::vec3 p0=pos - norqeiline * delta;
+		glm::vec3 p1=pos + norqeiline * delta;
+		glm::vec3 p2= position + norqeiline * delta;
+		glm::vec3 p3= position - norqeiline * delta;
+
 		glm::vec3 color = glm::vec3(1.0, 1.0, 1.0);
+		m_Vertexdata.push_back(p0);
 		m_Vertexdata.push_back(color);
-	}
-	for (int i = 1; i < pointSide + 2; i++)
-	{
-		m_Indices.push_back(0);
-		m_Indices.push_back(i + 1);
-		m_Indices.push_back(i);
+
+		m_Vertexdata.push_back(p1);
+		m_Vertexdata.push_back(color);
+
+		m_Vertexdata.push_back(p2);
+		m_Vertexdata.push_back(color);
+
+		m_Vertexdata.push_back(p2);
+		m_Vertexdata.push_back(color);
+
+		m_Vertexdata.push_back(p3);
+		m_Vertexdata.push_back(color);
+
+		m_Vertexdata.push_back(p0);
+		m_Vertexdata.push_back(color);
 	}
 }
