@@ -27,9 +27,10 @@ bool AudioRect::Init()
 	return true;
 }
 
-void AudioRect::Draw(const AudioObject& audioObject, const Visualizer& visualizer)
+void AudioRect::Draw(Visualizer* visualizer)
 {
-	auto vao = GenVAO(audioObject.GetHeightList());
+	auto heightlist=visualizer->GetHeightList(m_Framecount%m_TotalNum);
+	auto vao = GenVAO(heightlist);
 	glm::mat4 Projection = glm::perspective(glm::radians(60.0f), 1280.0f / 720.0f, 0.1f, 1000.0f);
 	glm::mat4 View = glm::lookAt(
 		glm::vec3(0, 0, 0),
@@ -43,8 +44,9 @@ void AudioRect::Draw(const AudioObject& audioObject, const Visualizer& visualize
 	glUseProgram(shader);
 	glUniformMatrix4fv(MVPID, 1, GL_FALSE, &MVP[0][0]);
 	glBindVertexArray(vao);
-	glDrawArrays(GL_TRIANGLES, 0, audioObject.GetHeightList().size() * 6);
+	glDrawArrays(GL_TRIANGLES, 0,heightlist.size() * 6);
 	glDeleteVertexArrays(1, &vao);
+	m_Framecount++;
 }
 
 unsigned int AudioRect::GenVAO(const std::vector<float>& heigthlist)

@@ -26,7 +26,7 @@ public:
 
 	virtual bool Init()override;
 
-	virtual void Draw(const AudioObject& audioObject, const Visualizer& visualizer)override;
+	virtual void Draw(Visualizer* visualizer)override;
 private:
 	unsigned int GenVAO(const std::vector<float>& heigthlist);
 	void GetVetexData(const std::vector<float>& heigthlist);

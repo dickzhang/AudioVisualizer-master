@@ -2,47 +2,46 @@
 #include "Shader.hpp"
 #include <fstream>
 #include <iostream>
-#include "json.hpp"
-using json = nlohmann::json;
 
-Visualizer::Visualizer(int width, int height): m_Object3D("Models/suzanne.obj", "Models/suzanneuvmap.DDS")
+
+Visualizer::Visualizer(int width,int height)
 {
 	windowWidth = width;
 	windowHeight = height;
 	lastTimeStamp = high_resolution_clock::now();
 	m_DrawBase = GetDrawObject();
 
-	//std::ifstream jfile("Resources/audioData.txt");
-	//json j;
-	//jfile>>j;
-	//for(int i = 0; i<j["data"].size(); i++)
-	//{
-	//	std::cout<<i<<"===="<<j["data"][i].at("0")<<std::endl;
-	//	std::cout<<i<<"===="<<j["data"][i].at("1")<<std::endl;
-	//	std::cout<<i<<"===="<<j["data"][i].at("2")<<std::endl;
-	//	std::cout<<i<<"===="<<j["data"][i].at("3")<<std::endl;
-	//	std::cout<<"======================="<<std::endl;
-	//}
+	std::ifstream jfile("Resources/audioData.txt");
+	jfile>>m_JsonData;
 }
 
+vector<float> Visualizer::GetHeightList(int index)
+{
+	if(index>=0 && m_JsonData.size()>index)
+	{
+		return m_JsonData[index];
+	}
+	else
+	{
+		vector<float> temp;
+		return temp;
+	}
+}
 DrawBase* Visualizer::GetDrawObject()
 {
-	if (DEMOTYPE == 0)
-	{
-		return &m_Object3D;
-	}
-	else if (DEMOTYPE == 1)
+	if(DEMOTYPE==0)
 	{
 		return &m_AudioRect;
 	}
-	else if (DEMOTYPE == 2)
+	else if(DEMOTYPE==1)
 	{
 		return &m_AudioCircle;
 	}
-	else if (DEMOTYPE == 3)
+	else if(DEMOTYPE==2)
 	{
 		return &m_AudioRing;
 	}
+		
 	return nullptr;
 }
 
@@ -53,19 +52,19 @@ Visualizer::~Visualizer()
 
 void Visualizer::Teardown()
 {
-	glDeleteVertexArrays(1, &vertexArrayID);
+	glDeleteVertexArrays(1,&vertexArrayID);
 	glfwTerminate();
 }
 
 bool Visualizer::Init()
 {
-	if (!InitWindow())
+	if(!InitWindow())
 	{
-		cout << "Window Initialization failed" << endl;
+		cout<<"Window Initialization failed"<<endl;
 		return false;
 	}
 	InitVAO();
-	if (!m_DrawBase||!m_DrawBase->Init())
+	if(!m_DrawBase||!m_DrawBase->Init())
 	{
 		return false;
 	}
@@ -75,27 +74,28 @@ bool Visualizer::Init()
 bool Visualizer::InitWindow()
 {
 	// Initialise GLFW
-	if (!glfwInit())
+	if(!glfwInit())
 	{
-		cout << "Failed to initialize GLDFW" << endl;
+		cout<<"Failed to initialize GLDFW"<<endl;
 		Teardown();
 		return false;
 	}
-	glfwWindowHint(GLFW_SAMPLES, 4);
-	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
-	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE); // To make MacOS happy; should not be needed
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_SAMPLES,4);
+	glfwWindowHint(GLFW_RESIZABLE,GL_FALSE);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR,3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR,3);
+	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT,GL_TRUE); // To make MacOS happy; should not be needed
+	glfwWindowHint(GLFW_OPENGL_PROFILE,GLFW_OPENGL_CORE_PROFILE);
 
 	// Open a window and create its OpenGL context
-	window = glfwCreateWindow(windowWidth, windowHeight, "AudioVis", NULL, NULL);
+	window = glfwCreateWindow(windowWidth,windowHeight,"AudioVis",NULL,NULL);
 
 	// Enable backface culling
 	//glEnable(GL_CULL_FACE);
 
-	if (window == NULL) {
-		cout << "Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible, try GLFW 2.1" << endl;
+	if(window==NULL)
+	{
+		cout<<"Failed to open GLFW window. If you have an Intel GPU, they are not 3.3 compatible, try GLFW 2.1"<<endl;
 		Teardown();
 		return false;
 	}
@@ -105,8 +105,9 @@ bool Visualizer::InitWindow()
 	// Initialize GLEW
 	glewExperimental = true; // Needed for core profile
 
-	if (glewInit() != GLEW_OK) {
-		cout << "Failed to initialize GLEW\n" << endl;
+	if(glewInit()!=GLEW_OK)
+	{
+		cout<<"Failed to initialize GLEW\n"<<endl;
 		Teardown();
 		return false;
 	}
@@ -128,7 +129,7 @@ bool Visualizer::InitWindow()
 	//glfwSetInputMode(window, GLFW_STICKY_KEYS, GL_TRUE);
 
 	// Black background
-	glClearColor(0.0f, 0.0f, 0.0f, 0.0f);
+	glClearColor(0.0f,0.0f,0.0f,0.0f);
 
 	return true;
 }
@@ -136,7 +137,7 @@ bool Visualizer::InitWindow()
 void Visualizer::InitVAO()
 {
 	// NOTE: It may look like this code gets used no where, but making the Vertext Array Object is important!
-	glGenVertexArrays(1, &vertexArrayID);
+	glGenVertexArrays(1,&vertexArrayID);
 	glBindVertexArray(vertexArrayID);
 }
 
@@ -144,16 +145,16 @@ void Visualizer::InitVAO()
 void Visualizer::Update(const AudioObject& audioObject)
 {
 	// Clear the screen
-	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	if (m_DrawBase)
+	glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
+	if(m_DrawBase)
 	{
-		m_DrawBase->Draw(audioObject, *this);
+		//m_DrawBase->Draw(audioObject,*this);
+		m_DrawBase->Draw(this);
 	}
-	// Swap buffers
 	glfwSwapBuffers(window);
 	glfwPollEvents();
 	auto end = high_resolution_clock::now();
-	auto duration = lastTimeStamp - end;
+	auto duration = lastTimeStamp-end;
 	auto durationInNanoS = duration_cast<nanoseconds>(duration).count();
-	deltaTime = durationInNanoS / 1000000000.0f;
+	deltaTime = durationInNanoS/1000000000.0f;
 }
