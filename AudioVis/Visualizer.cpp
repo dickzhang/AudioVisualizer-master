@@ -1,7 +1,9 @@
 #include "Visualizer.h"
-
-// TEST 
 #include "Shader.hpp"
+#include <fstream>
+#include <iostream>
+#include "json.hpp"
+using json = nlohmann::json;
 
 Visualizer::Visualizer(int width, int height): m_Object3D("Models/suzanne.obj", "Models/suzanneuvmap.DDS")
 {
@@ -9,6 +11,18 @@ Visualizer::Visualizer(int width, int height): m_Object3D("Models/suzanne.obj", 
 	windowHeight = height;
 	lastTimeStamp = high_resolution_clock::now();
 	m_DrawBase = GetDrawObject();
+
+	//std::ifstream jfile("Resources/audioData.txt");
+	//json j;
+	//jfile>>j;
+	//for(int i = 0; i<j["data"].size(); i++)
+	//{
+	//	std::cout<<i<<"===="<<j["data"][i].at("0")<<std::endl;
+	//	std::cout<<i<<"===="<<j["data"][i].at("1")<<std::endl;
+	//	std::cout<<i<<"===="<<j["data"][i].at("2")<<std::endl;
+	//	std::cout<<i<<"===="<<j["data"][i].at("3")<<std::endl;
+	//	std::cout<<"======================="<<std::endl;
+	//}
 }
 
 DrawBase* Visualizer::GetDrawObject()

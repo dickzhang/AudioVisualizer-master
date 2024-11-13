@@ -28,7 +28,7 @@ class AudioObject;
 //1 是震动的矩形波浪示例
 //2 是圆形波浪示例
 //3 是圆环行波浪示例
-#define DEMOTYPE 3
+#define DEMOTYPE 1
 
 class Visualizer
 {
