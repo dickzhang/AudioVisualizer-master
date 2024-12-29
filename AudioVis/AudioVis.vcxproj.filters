@@ -41,6 +41,9 @@
     <ClInclude Include="DrawBase.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="RectShape.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioVis.cpp">
@@ -68,6 +71,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="DrawBase.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="RectShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

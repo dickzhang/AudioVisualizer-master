@@ -10,6 +10,7 @@
 #include "AudioRect.h"
 #include "AudioCircle.h"
 #include "AudioRing.h"
+#include "RectShape.h"
 #include "DrawBase.h"
 #include <stdio.h>
 #include <chrono>	
@@ -27,7 +28,8 @@ using json = nlohmann::json;
 //0 是震动的矩形波浪示例
 //1 是圆形波浪示例
 //2 是圆环行波浪示例
-#define DEMOTYPE 2
+//3 带阴影的矩形示例
+#define DEMOTYPE 3
 
 class Visualizer
 {
@@ -54,6 +56,7 @@ private:
 	int windowWidth{ 0 };
 	int windowHeight{ 0 };
 
+	RectShape m_RectShape;
 	AudioRect m_AudioRect;
 	AudioCircle m_AudioCircle;
 	AudioRing m_AudioRing;
@@ -61,4 +64,5 @@ private:
 	double						deltaTime{ 0 };
 	time_point<steady_clock>	lastTimeStamp;
 	json m_JsonData;
+	vector<float> m_AudioData;
 };

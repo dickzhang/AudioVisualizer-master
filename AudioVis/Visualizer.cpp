@@ -41,6 +41,10 @@ DrawBase* Visualizer::GetDrawObject()
 	{
 		return &m_AudioRing;
 	}
+	else if(DEMOTYPE==3)
+	{
+		return &m_RectShape;
+	}
 		
 	return nullptr;
 }
