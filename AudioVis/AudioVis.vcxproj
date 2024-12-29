@@ -168,6 +168,7 @@
     <ClInclude Include="AudioRing.h" />
     <ClInclude Include="AudioVis.h" />
     <ClInclude Include="DrawBase.h" />
+    <ClInclude Include="LineAreaShape.h" />
     <ClInclude Include="RectShape.h" />
     <ClInclude Include="Shader.hpp" />
     <ClInclude Include="Texture.hpp" />
@@ -180,6 +181,7 @@
     <ClCompile Include="AudioRing.cpp" />
     <ClCompile Include="AudioVis.cpp" />
     <ClCompile Include="DrawBase.cpp" />
+    <ClCompile Include="LineAreaShape.cpp" />
     <ClCompile Include="RectShape.cpp" />
     <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Texture.cpp" />

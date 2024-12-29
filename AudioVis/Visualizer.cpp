@@ -45,6 +45,10 @@ DrawBase* Visualizer::GetDrawObject()
 	{
 		return &m_RectShape;
 	}
+	else if(DEMOTYPE==4)
+	{
+		return &m_LineAreaShape;
+	}
 		
 	return nullptr;
 }

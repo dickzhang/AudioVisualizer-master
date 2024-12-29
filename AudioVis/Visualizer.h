@@ -12,6 +12,7 @@
 #include "AudioRing.h"
 #include "RectShape.h"
 #include "DrawBase.h"
+#include "LineAreaShape.h"
 #include <stdio.h>
 #include <chrono>	
 #include "GL/glew.h"
@@ -29,7 +30,8 @@ using json = nlohmann::json;
 //1 是圆形波浪示例
 //2 是圆环行波浪示例
 //3 带阴影的矩形示例
-#define DEMOTYPE 3
+//4 带阴影的面片形示例
+#define DEMOTYPE 4
 
 class Visualizer
 {
@@ -58,6 +60,7 @@ private:
 
 	RectShape m_RectShape;
 	AudioRect m_AudioRect;
+	LineAreaShape m_LineAreaShape;
 	AudioCircle m_AudioCircle;
 	AudioRing m_AudioRing;
 	DrawBase* m_DrawBase;
