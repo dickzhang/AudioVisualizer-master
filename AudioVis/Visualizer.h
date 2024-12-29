@@ -11,6 +11,7 @@
 #include "AudioCircle.h"
 #include "AudioRing.h"
 #include "RectShape.h"
+#include "RingRectShape.h"
 #include "DrawBase.h"
 #include "LineAreaShape.h"
 #include <stdio.h>
@@ -31,7 +32,8 @@ using json = nlohmann::json;
 //2 是圆环行波浪示例
 //3 带阴影的矩形示例
 //4 带阴影的面片形示例
-#define DEMOTYPE 4
+//5 圆环双向波动示例
+#define DEMOTYPE 5
 
 class Visualizer
 {
@@ -63,6 +65,7 @@ private:
 	LineAreaShape m_LineAreaShape;
 	AudioCircle m_AudioCircle;
 	AudioRing m_AudioRing;
+	RingRectShape m_RingRectShape;
 	DrawBase* m_DrawBase;
 	double						deltaTime{ 0 };
 	time_point<steady_clock>	lastTimeStamp;

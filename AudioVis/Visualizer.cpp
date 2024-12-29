@@ -49,6 +49,10 @@ DrawBase* Visualizer::GetDrawObject()
 	{
 		return &m_LineAreaShape;
 	}
+	else if(DEMOTYPE==5)
+	{
+		return &m_RingRectShape;
+	}
 		
 	return nullptr;
 }

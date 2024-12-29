@@ -30,7 +30,7 @@ bool LineAreaShape::Init()
 void LineAreaShape::Draw(Visualizer* visualizer)
 {
 	auto heightlist = visualizer->GetHeightList(m_Framecount%m_TotalNum);
-	int averageNum = 5;
+	int averageNum = 4;
 	vector<float> templist;
 	for(int i = averageNum; i<heightlist.size(); i++)
 	{
