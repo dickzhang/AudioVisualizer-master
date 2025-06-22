@@ -172,6 +172,7 @@
     <ClInclude Include="RectShape.h" />
     <ClInclude Include="RingRectShape.h" />
     <ClInclude Include="Shader.hpp" />
+    <ClInclude Include="SpereShape.h" />
     <ClInclude Include="Texture.hpp" />
     <ClInclude Include="AudioRect.h" />
     <ClInclude Include="Visualizer.h" />
@@ -186,6 +187,7 @@
     <ClCompile Include="RectShape.cpp" />
     <ClCompile Include="RingRectShape.cpp" />
     <ClCompile Include="Shader.cpp" />
+    <ClCompile Include="SpereShape.cpp" />
     <ClCompile Include="Texture.cpp" />
     <ClCompile Include="AudioRect.cpp" />
     <ClCompile Include="Visualizer.cpp" />

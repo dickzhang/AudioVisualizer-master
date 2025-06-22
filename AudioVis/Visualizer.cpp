@@ -53,6 +53,10 @@ DrawBase* Visualizer::GetDrawObject()
 	{
 		return &m_RingRectShape;
 	}
+	else if(DEMOTYPE==6)
+	{
+		return &m_SpereShape;
+	}
 		
 	return nullptr;
 }

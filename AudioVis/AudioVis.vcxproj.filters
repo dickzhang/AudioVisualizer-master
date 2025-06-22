@@ -50,6 +50,9 @@
     <ClInclude Include="RingRectShape.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="SpereShape.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioVis.cpp">
@@ -86,6 +89,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="RingRectShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="SpereShape.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
