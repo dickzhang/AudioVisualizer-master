@@ -93,13 +93,7 @@ unsigned int SpereShape::GenVAO(const std::vector<float>& heigthlist)
 	return VAO;
 }
 
-// 使用简单的噪声函数（这里是一个简单的伪随机生成噪声）
-// 你可以替换为 Perlin 噪声或者 Simplex 噪声来获取更平滑的效果
-float simpleNoise(float x,float y,float z)
-{
-	return std::sin(x*12.9898f+y*78.233f+z*37.719f)*43758.5453f-std::floor(std::sin(x*12.9898f+y*78.233f+z*37.719f)*43758.5453f);
-}
-// 球体生成函数（包括噪声扰动）
+// 球体生成函数（包括噪声扰动） 
 void SpereShape::GenerateNoisySphere(const std::vector<float>& heigthlist,int stacks,int slices)
 {
 	// 生成球体顶点
@@ -126,8 +120,10 @@ void SpereShape::GenerateNoisySphere(const std::vector<float>& heigthlist,int st
 			auto x = radius*cos(lat)*cos(lon);
 			auto y = radius*cos(lat)*sin(lon);
 			auto z = radius*sin(lat);
-
-			vertices.push_back(glm::vec3(x,y,z));
+			auto index=i* j%heigthlist.size();
+			auto offset=heigthlist[index]+1;
+			vertices.push_back(glm::vec3(x*offset,y*offset,z*offset));
+			//vertices.push_back(glm::vec4(1,0,1,1));
 		}
 	}
 	// 生成索引
