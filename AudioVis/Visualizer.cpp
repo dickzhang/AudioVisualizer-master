@@ -55,7 +55,7 @@ DrawBase* Visualizer::GetDrawObject()
 	}
 	else if(DEMOTYPE==6)
 	{
-		return &m_SpereShape;
+		return &m_NoiseSpereBall;
 	}
 		
 	return nullptr;

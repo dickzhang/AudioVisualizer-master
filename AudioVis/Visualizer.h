@@ -14,7 +14,7 @@
 #include "RingRectShape.h"
 #include "DrawBase.h"
 #include "LineAreaShape.h"
-#include "SpereShape.h"
+#include "NoiseSpereBall.h"
 #include <stdio.h>
 #include <chrono>	
 #include "GL/glew.h"
@@ -34,7 +34,7 @@ using json = nlohmann::json;
 //3 带阴影的矩形示例
 //4 带阴影的面片形示例
 //5 圆环双向波动示例
-//6 球体波动效果
+//6 噪声球体波动效果
 #define DEMOTYPE 6
 
 class Visualizer
@@ -68,7 +68,7 @@ private:
 	AudioCircle m_AudioCircle;
 	AudioRing m_AudioRing;
 	RingRectShape m_RingRectShape;
-	SpereShape m_SpereShape;
+	NoiseSpereBall m_NoiseSpereBall;
 	DrawBase* m_DrawBase;
 	double						deltaTime{ 0 };
 	time_point<steady_clock>	lastTimeStamp;

@@ -169,6 +169,7 @@
     <ClInclude Include="AudioVis.h" />
     <ClInclude Include="DrawBase.h" />
     <ClInclude Include="LineAreaShape.h" />
+    <ClInclude Include="NoiseSpereBall.h" />
     <ClInclude Include="RectShape.h" />
     <ClInclude Include="RingRectShape.h" />
     <ClInclude Include="Shader.hpp" />
@@ -184,6 +185,7 @@
     <ClCompile Include="AudioVis.cpp" />
     <ClCompile Include="DrawBase.cpp" />
     <ClCompile Include="LineAreaShape.cpp" />
+    <ClCompile Include="NoiseSpereBall.cpp" />
     <ClCompile Include="RectShape.cpp" />
     <ClCompile Include="RingRectShape.cpp" />
     <ClCompile Include="Shader.cpp" />

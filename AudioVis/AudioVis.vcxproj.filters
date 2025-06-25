@@ -53,6 +53,9 @@
     <ClInclude Include="SpereShape.h">
       <Filter>Source Files</Filter>
     </ClInclude>
+    <ClInclude Include="NoiseSpereBall.h">
+      <Filter>Source Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AudioVis.cpp">
@@ -92,6 +95,9 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="SpereShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="NoiseSpereBall.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

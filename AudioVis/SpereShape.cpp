@@ -180,10 +180,15 @@ float SimplexNoise(float xin,float yin,float zin)
 	int jj = j&255;
 	int kk = k&255;
 
-	int gi0 = perm[ii+perm[jj+perm[kk]]]%12;
-	int gi1 = perm[ii+i1+perm[jj+j1+perm[kk+k1]]]%12;
-	int gi2 = perm[ii+i2+perm[jj+j2+perm[kk+k2]]]%12;
-	int gi3 = perm[ii+1+perm[jj+1+perm[kk+1]]]%12;
+	//int gi0 = perm[ii+perm[jj+perm[kk]]]%12;
+	//int gi1 = perm[ii+i1+perm[jj+j1+perm[kk+k1]]]%12;
+	//int gi2 = perm[ii+i2+perm[jj+j2+perm[kk+k2]]]%12;
+	//int gi3 = perm[ii+1+perm[jj+1+perm[kk+1]]]%12;
+
+	int gi0 = 0;
+	int gi1 = 0;
+	int gi2 = 0;
+	int gi3 = 0;
 
 	float t0 = 0.6f-x0*x0-y0*y0-z0*z0;
 	if(t0<0) n0 = 0.0f;
@@ -232,7 +237,6 @@ void SpereShape::GenerateNoisySphere(const std::vector<float>& heigthlist,int st
 	auto qz = sum/heigthlist.size();
 	radius += qz;
 	float noise = (rand()%1000)/1000.0f*0.5f;  // 随机生成一个扰动值
-	float maxDisturbance = 2;
 	for(int i = 0; i<=stacks; ++i)
 	{
 		float lat = M_PI*(i/(float)stacks-0.5f); // 纬度
@@ -249,11 +253,7 @@ void SpereShape::GenerateNoisySphere(const std::vector<float>& heigthlist,int st
 			{
 				offset = 1;
 			}
-			x = radius*cos(lat)*cos(lon)*offset;
-			y = radius*cos(lat)*sin(lon)*offset;
-			z = radius*sin(lat)*offset;
-
-			vertices.push_back(glm::vec3(x,y,z));
+			vertices.push_back(glm::vec3(x*offset,y*offset,z*offset));
 			vertices.push_back(glm::vec4(noise,noise,0.6,1));
 		}
 	}
