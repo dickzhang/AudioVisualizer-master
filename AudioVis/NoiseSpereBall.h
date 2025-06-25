@@ -35,12 +35,17 @@ public:
 
 	virtual void Draw(Visualizer* visualizer)override;
 
+	void DrawRect(Visualizer* visualizer);
 private:
 	unsigned int GenVAO(const std::vector<float>& heigthlist);
+	unsigned int GenRectVAO(const std::vector<float>& heigthlist);
 	void GenerateNoisySphere(const std::vector<float>& heigthlist,int stacks,int slices);
+	std::vector<glm::vec3> GetRectVetexData(const std::vector<float>& heigthlist);
 private:
 	GLuint shader;
+	GLuint rectshader;
 	GLuint MVPID;
+	GLuint rectMVPID;
 	GLuint uNoiseScaleID;
 	GLuint uNoiseStrengthID;
 	float m_fSphereRadius = 1;
