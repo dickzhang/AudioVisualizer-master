@@ -10,7 +10,7 @@
 #include <random>
 #include <iostream>
 #include <thread>
-
+#include "stb_image.h"
 NoiseSpereBall::NoiseSpereBall()
 {
 
@@ -36,6 +36,9 @@ bool NoiseSpereBall::Init()
 	{
 		rectMVPID = glGetUniformLocation(rectshader,"MVP");
 	}
+
+	//woodTexture = loadTexture("Resources/textures/concreteTexture.png",true);
+	woodTexture = loadTexture("Resources/textures/snow.jpg",true);
 	return true;
 }
 
@@ -57,8 +60,17 @@ void NoiseSpereBall::Draw(Visualizer* visualizer)
 	glClearColor(0.3,0.3,0.3,1.0);
 	glUseProgram(shader);
 	glUniformMatrix4fv(MVPID,1,GL_FALSE,&MVP[0][0]);
-	glUniform1f(uNoiseScaleID,1.2);
+	//glUniform1f(uNoiseScaleID,1.2);
+	glUniform1f(uNoiseScaleID,qz*2);
+	/*if(qz*qz<0.1)
+	{
+		qz = 0.1;
+	}*/
 	glUniform1f(uNoiseStrengthID,qz);
+	//std::cout<<"bloom: "<<qz<<std::endl;
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D,woodTexture);
+
 	glBindVertexArray(vao);
 	glDrawElements(GL_TRIANGLES,indices.size(),GL_UNSIGNED_INT,&indices[0]);
 	glDeleteVertexArrays(1,&vao);
@@ -69,7 +81,7 @@ void NoiseSpereBall::Draw(Visualizer* visualizer)
 void NoiseSpereBall::DrawRect(Visualizer* visualizer)
 {
 	auto heightlist = visualizer->GetHeightList(m_Framecount%m_TotalNum);
-	int average = 10;
+	int average = 8;
 	vector<float> templist;
 	float tempnum = 0;
 	for(int i = 0; i<heightlist.size(); i++)
@@ -137,14 +149,17 @@ unsigned int NoiseSpereBall::GenVAO(const std::vector<float>& heigthlist)
 	GenerateNoisySphere(heigthlist,m_SphereRow,m_SphereCol);
 	glBufferData(GL_ARRAY_BUFFER,sizeof(glm::vec3)*vertices.size(),&vertices[0],GL_STATIC_DRAW);
 
-	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,9*sizeof(float),(void*)0);
+	glVertexAttribPointer(0,3,GL_FLOAT,GL_FALSE,12*sizeof(float),(void*)0);
 	glEnableVertexAttribArray(0);
 
-	glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,9*sizeof(float),(void*)(3*sizeof(float)));
+	glVertexAttribPointer(1,3,GL_FLOAT,GL_FALSE,12*sizeof(float),(void*)(3*sizeof(float)));
 	glEnableVertexAttribArray(1);
 
-	glVertexAttribPointer(2,3,GL_FLOAT,GL_FALSE,9*sizeof(float),(void*)(6*sizeof(float)));
+	glVertexAttribPointer(2,3,GL_FLOAT,GL_FALSE,12*sizeof(float),(void*)(6*sizeof(float)));
 	glEnableVertexAttribArray(2);
+
+	glVertexAttribPointer(3,3,GL_FLOAT,GL_FALSE,12*sizeof(float),(void*)(9*sizeof(float)));
+	glEnableVertexAttribArray(3);
 	return VAO;
 }
 
@@ -163,6 +178,8 @@ void NoiseSpereBall::GenerateNoisySphere(const std::vector<float>& heigthlist,in
 
 	double row_delta = M_PI/(stacks-1);
 	double col_delta = 2*M_PI/slices;
+	double row_uv = 1.0/(stacks-1);
+	double col_uv = 1.0/slices;
 
 	std::random_device rd;
 	std::mt19937 gen(rd());
@@ -172,6 +189,8 @@ void NoiseSpereBall::GenerateNoisySphere(const std::vector<float>& heigthlist,in
 	{
 		for(int j = 0; j<=slices; ++j)
 		{
+			float u = j*col_uv;
+			float v = i*row_uv;
 			// 计算球面坐标
 			auto x = radius*sin(i*row_delta)*cos(j*col_delta);
 			auto y = radius*cos(i*row_delta);
@@ -179,9 +198,11 @@ void NoiseSpereBall::GenerateNoisySphere(const std::vector<float>& heigthlist,in
 
 			vertices.push_back(glm::vec3(x,y,z));
 			vertices.push_back(glm::vec3(color,color,0.8));
-			auto normal = glm::vec3(x,y,z);
-			normal = glm::normalize(normal);
+			auto normal = glm::normalize(glm::vec3(x,y,z));
 			vertices.push_back(normal);
+			u=u>1.0 ? 1.0 : u;
+			v = v>1.0 ? 0.0 : 1.0-v;
+			vertices.push_back(glm::vec3(u,v,0.0));
 		}
 	}
 	// 生成索引
@@ -205,7 +226,6 @@ std::vector<glm::vec3> NoiseSpereBall::GetRectVetexData(const std::vector<float>
 {
 	std::vector<glm::vec3> vertexdata;
 	if(heigthlist.empty())return vertexdata;
-	float lenght = 10.0;
 	float Hfactor = 3.0;
 	float dtx = 0.25;
 	float segment = 0.25;
@@ -237,4 +257,50 @@ std::vector<glm::vec3> NoiseSpereBall::GetRectVetexData(const std::vector<float>
 		vertexdata.push_back(color0);
 	}
 	return vertexdata;
+}
+
+unsigned int NoiseSpereBall::loadTexture(char const* path,bool gammaCorrection)
+{
+	unsigned int textureID;
+	glGenTextures(1,&textureID);
+
+	int width,height,nrComponents;
+	unsigned char* data = stbi_load(path,&width,&height,&nrComponents,0);
+	if(data)
+	{
+		GLenum internalFormat;
+		GLenum dataFormat;
+		if(nrComponents==1)
+		{
+			internalFormat = dataFormat = GL_RED;
+		}
+		else if(nrComponents==3)
+		{
+			internalFormat = gammaCorrection ? GL_SRGB : GL_RGB;
+			dataFormat = GL_RGB;
+		}
+		else if(nrComponents==4)
+		{
+			internalFormat = gammaCorrection ? GL_SRGB_ALPHA : GL_RGBA;
+			dataFormat = GL_RGBA;
+		}
+
+		glBindTexture(GL_TEXTURE_2D,textureID);
+		glTexImage2D(GL_TEXTURE_2D,0,internalFormat,width,height,0,dataFormat,GL_UNSIGNED_BYTE,data);
+		glGenerateMipmap(GL_TEXTURE_2D);
+
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_S,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_WRAP_T,GL_REPEAT);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MIN_FILTER,GL_LINEAR_MIPMAP_LINEAR);
+		glTexParameteri(GL_TEXTURE_2D,GL_TEXTURE_MAG_FILTER,GL_LINEAR);
+
+		stbi_image_free(data);
+	}
+	else
+	{
+		std::cout<<"Texture failed to load at path: "<<path<<std::endl;
+		stbi_image_free(data);
+	}
+
+	return textureID;
 }

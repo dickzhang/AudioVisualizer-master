@@ -3,11 +3,13 @@
 layout(location = 0) in vec3 aPos;
 layout(location = 1) in vec3 color;
 layout(location = 2) in vec3 aNormal;
+layout(location = 3) in vec3 uv;
 
 uniform float uNoiseScale;
 uniform float uNoiseStrength;
 uniform mat4 MVP;
 out vec4 outColor;
+out vec2 texCoord;
 
 
 vec3 mod289(vec3 x) {
@@ -102,11 +104,21 @@ float snoise(vec3 v)
                                 dot(p2,x2), dot(p3,x3) ) );
   }
 
+float rand(vec2 co) {
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+float hash(vec2 p) {
+    p = fract(p * vec2(123.34, 456.21));
+    p += dot(p, p + 45.32);
+    return fract(p.x * p.y);
+}
 void main()
 { 
+   // float random = rand(aPos.xy);
     float n = snoise(aPos * uNoiseScale);
     vec3 displaced = aPos + aNormal * n * uNoiseStrength;
     outColor=vec4(color,1.0);
+    texCoord=uv.xy;
     gl_Position = MVP * vec4(displaced, 1.0);
 }
 

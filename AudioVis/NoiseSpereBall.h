@@ -41,6 +41,7 @@ private:
 	unsigned int GenRectVAO(const std::vector<float>& heigthlist);
 	void GenerateNoisySphere(const std::vector<float>& heigthlist,int stacks,int slices);
 	std::vector<glm::vec3> GetRectVetexData(const std::vector<float>& heigthlist);
+	unsigned int loadTexture(char const* path,bool gammaCorrection);
 private:
 	GLuint shader;
 	GLuint rectshader;
@@ -53,4 +54,5 @@ private:
 	int m_SphereCol = 60;
 	std::vector<glm::vec3> vertices;
 	std::vector<unsigned int> indices;
+	unsigned int woodTexture=0;
 };
